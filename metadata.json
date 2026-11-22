@@ -1,0 +1,6 @@
+{
+  "name": "SafeCsv Studio",
+  "description": "ESP32 CsvProtocol.h protocol designer, C++ header generator, and 4-window UART transfer simulator.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

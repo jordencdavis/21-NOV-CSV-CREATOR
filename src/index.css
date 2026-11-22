@@ -1,0 +1,240 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --text-xs: 0.9rem;
+  --text-xs--line-height: 1.15rem;
+  --text-sm: 1.05rem;
+  --text-sm--line-height: 1.35rem;
+  --text-base: 1.2rem;
+  --text-base--line-height: 1.55rem;
+  --text-lg: 1.35rem;
+  --text-lg--line-height: 1.7rem;
+}
+
+/* Single Unified 7-Color Theme (Zero Black / Zero Near-Black)
+   1. Saffron Cream  (#FFF7E0 / #FFF2CE / #FFE9B3) - Canvas, window headers, code/wire frames
+   2. Ivory White    (#FFFFFF)                      - Primary cards, active controls
+   3. Saffron Amber  (#B45309 / border #E6BE6A)     - Primary CTAs, active tabs, borders, delimiters
+   4. Cobalt Blue    (#1D4ED8 / soft #EDF4FF)       - Fixed headers, topology hops, secondary accents
+   5. Emerald Green  (#047857 / soft #ECFDF5)       - Payload fields, CRC OK, ACK verified
+   6. Deep Teal      (#0F766E / soft #F0FDFA)       - Code strips, TX ledger/queues, SRAM summary
+   7. Chestnut Brown (#5C2D0C / muted #8A4E1B)      - Primary & secondary ink (never black/near-black)
+*/
+:root {
+  --t-canvas: #FFF7E0;
+  --t-header: #FFFBF0;
+  --t-surface: #FFFFFF;
+  --t-surface-alt: #FFF5D8;
+  --t-surface-hover: #FFEBB8;
+  --t-code-bg: #FFF2CE;
+  --t-code-head: #FFE9B3;
+  --t-border: #E6BE6A;
+  --t-border-soft: #F3DAA0;
+
+  --t-ink: #5C2D0C;
+  --t-ink-muted: #8A4E1B;
+  --t-ink-soft: #A36834;
+
+  --t-accent: #B45309;
+  --t-accent-hover: #92400E;
+  --t-accent-soft: #FFE6AE;
+  --t-accent-soft-hover: #FFD985;
+  --t-accent-border: #DFAD4B;
+  --t-accent-ink: #5C2D0C;
+
+  --t-cobalt: #1D4ED8;
+  --t-cobalt-soft: #EDF4FF;
+  --t-cobalt-border: #BFDBFE;
+
+  --t-emerald: #047857;
+  --t-emerald-soft: #ECFDF5;
+  --t-emerald-border: #A7F3D0;
+
+  --t-teal: #0F766E;
+  --t-teal-soft: #ECFEFC;
+  --t-teal-border: #99F6E4;
+
+  --t-syntax-delim: #B45309;
+  --t-syntax-hdr: #1D4ED8;
+  --t-syntax-payload: #047857;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background-color: var(--t-canvas);
+    color: var(--t-ink);
+  }
+  code, pre, .font-mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes safecsv-title-scroll {
+  0% {
+    transform: translate3d(0%, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.scrolling-title-wrap {
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.scrolling-title-track {
+  display: inline-flex;
+  width: max-content;
+  white-space: nowrap;
+  will-change: transform;
+  animation: safecsv-title-scroll 14s linear infinite;
+}
+
+.scrolling-title-wrap:hover .scrolling-title-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrolling-title-track {
+    animation: none;
+  }
+}
+
+@keyframes nav-tab-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 6px rgba(255, 244, 214, 0.55), 0 0 14px rgba(255, 224, 130, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(255, 248, 225, 0.9), 0 0 24px rgba(255, 224, 130, 0.85);
+  }
+}
+
+.nav-tab-active-glow {
+  animation: nav-tab-glow 2.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-tab-active-glow {
+    animation: none;
+    box-shadow: 0 0 10px rgba(255, 244, 214, 0.75);
+  }
+}
+
+/* Data Transfer Glows: ONLY 3 pulses per send/update, with A/B keyframes to restart cleanly on new data */
+@keyframes glow-send-pulse-a {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(217, 119, 6, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.95), 0 0 16px rgba(217, 119, 6, 0.85), 0 0 30px rgba(245, 158, 11, 0.6);
+  }
+}
+
+@keyframes glow-send-pulse-b {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(217, 119, 6, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.95), 0 0 16px rgba(217, 119, 6, 0.85), 0 0 30px rgba(245, 158, 11, 0.6);
+  }
+}
+
+@keyframes glow-rx-pulse-a {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(4, 120, 87, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.95), 0 0 16px rgba(4, 120, 87, 0.85), 0 0 30px rgba(16, 185, 129, 0.6);
+  }
+}
+
+@keyframes glow-rx-pulse-b {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(4, 120, 87, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.95), 0 0 16px rgba(4, 120, 87, 0.85), 0 0 30px rgba(16, 185, 129, 0.6);
+  }
+}
+
+@keyframes glow-interpret-pulse-a {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(29, 78, 216, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.9), 0 0 15px rgba(29, 78, 216, 0.78), 0 0 28px rgba(59, 130, 246, 0.52);
+  }
+}
+
+@keyframes glow-interpret-pulse-b {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(29, 78, 216, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.9), 0 0 15px rgba(29, 78, 216, 0.78), 0 0 28px rgba(59, 130, 246, 0.52);
+  }
+}
+
+.glow-send-btn,
+.glow-tx-col,
+.glow-send-btn-a,
+.glow-tx-col-a {
+  animation: glow-send-pulse-a 0.7s ease-in-out 3 forwards;
+}
+
+.glow-send-btn-b,
+.glow-tx-col-b {
+  animation: glow-send-pulse-b 0.7s ease-in-out 3 forwards;
+}
+
+.glow-rx-col,
+.glow-rx-col-a {
+  animation: glow-rx-pulse-a 0.7s ease-in-out 3 forwards;
+}
+
+.glow-rx-col-b {
+  animation: glow-rx-pulse-b 0.7s ease-in-out 3 forwards;
+}
+
+.glow-interpret-col,
+.glow-interpret-col-a {
+  animation: glow-interpret-pulse-a 0.7s ease-in-out 3 forwards;
+}
+
+.glow-interpret-col-b {
+  animation: glow-interpret-pulse-b 0.7s ease-in-out 3 forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-send-btn,
+  .glow-send-btn-a,
+  .glow-send-btn-b,
+  .glow-tx-col,
+  .glow-tx-col-a,
+  .glow-tx-col-b {
+    animation: none;
+    box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.55);
+  }
+  .glow-rx-col,
+  .glow-rx-col-a,
+  .glow-rx-col-b {
+    animation: none;
+    box-shadow: 0 0 0 2px rgba(4, 120, 87, 0.55);
+  }
+  .glow-interpret-col,
+  .glow-interpret-col-a,
+  .glow-interpret-col-b {
+    animation: none;
+    box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.5);
+  }
+}
